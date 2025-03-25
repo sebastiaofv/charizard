@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  webapp:
+    build: ./webapp
+    container_name: webapp
+    ports:
+      - "5000:5000"
+    networks:
+      - webnet
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - webapp
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    driver: bridge
